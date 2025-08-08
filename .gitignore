@@ -1,0 +1,52 @@
+# .NET build artifacts
+bin/
+obj/
+
+# Rider project files
+.idea/
+*.sln.DotSettings*
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code settings
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Logs
+*.log
+
+# Test results
+TestResults/
+
+# NuGet packages
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Other
+*.swp
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Local secrets
+secrets.json
+
