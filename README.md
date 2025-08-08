@@ -8,25 +8,24 @@ Plan is to a create a GraphQL api that can be queried via a client/game. And a k
 Components
 1. GraphQL API (Query + Mutation Layer)
    
-   -Acts as the main interface for the game client.
+   - Acts as the main interface for the game client.
 
-   -Used to query available NPCs, locations, or dialogue state.
+   - Used to query available NPCs, locations, or dialogue state.
 
-   -Used to send prompts (e.g., TalkToNpc) and receive AI-generated responses.
+   - Used to send prompts (e.g., TalkToNpc) and receive AI-generated responses.
 
 2. Kafka (Event Stream)
    
-   -Used for sending and processing in-game events (e.g., player actions, world changes).
+   - Used for sending and processing in-game events (e.g., player actions, world changes).
 
-   -These events update NPCs' contextual knowledge.
+   - These events update NPCs' contextual knowledge.
 
 4. Will use a vector db to persist npc memory store embeddings
 
 3. Azure AI (OpenAI GPT-4 / Chat Completions)
    
-Powers the generation of NPC dialogue responses.
-
-Consumes prompt context based on:
+- Powers the generation of NPC dialogue responses.
+- Consumes prompt context based on:
 
   - Recent events
 
