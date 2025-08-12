@@ -6,6 +6,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.AI.Agents.Persistent" Version="1.2.0-beta.1" />
+    <PackageReference Include="Azure.AI.Inference" Version="1.0.0-beta.5" />
+    <PackageReference Include="Azure.AI.Projects" Version="1.0.0-beta.10" />
+    <PackageReference Include="Azure.Identity" Version="1.15.0" />
     <PackageReference Include="HotChocolate" Version="15.1.8" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.8" />
   </ItemGroup>
@@ -14,6 +18,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>38b2d8f0-ca45-472a-ad0b-c6a779f14094</UserSecretsId>
   </PropertyGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using LineRunner.Domain.NPCs;
 
-namespace LineRunner.Application.Interfaces;
+namespace LineRunner.Domain.Interfaces;
 
 public interface INpcResponder
 {
