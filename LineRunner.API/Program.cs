@@ -4,11 +4,7 @@ using LineRunner.API.Graph.Queries;
 using LineRunner.Application.Configuration;
 using LineRunner.Application.Services;
 using Microsoft.Extensions.Options;
-using Azure;
-using Azure.Identity;
-using Azure.AI.Projects;
-using Azure.AI.Inference;
-using Azure.Core;
+using Azure.AI.OpenAI;
 
 namespace LineRunner.API;
 
@@ -18,23 +14,21 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.Configure<AzureAiOptions>(builder.Configuration.GetSection("AzureAi"));
+        
         //Building the GraphQL server
         builder.Services
             .AddGraphQLServer()
             .AddQueryType<TalkToNpcQuery>()
             .AddMutationType<DialogMutations>();
-        
-        builder.Services.Configure<AzureAiOptions>(builder.Configuration.GetSection("AzureAi"));
 
-        //Building the OpenAI client
-        builder.Services.AddSingleton(sp =>
+        //AzureOpenAI client
+        builder.Services.AddSingleton<AzureOpenAIClient>(sp =>
         {
             var options = sp.GetRequiredService<IOptions<AzureAiOptions>>().Value;
-
-            return new AIProjectClient(
+            return new(
                 new Uri(options.Endpoint),
-                new DefaultAzureCredential()
-            );
+                new AzureKeyCredential(options.ApiKey));
         });
         
         builder.Services.AddScoped<IOpenAiDialogService, OpenAiDialogService>();
@@ -42,5 +36,6 @@ public class Program
         var app = builder.Build();
         app.MapGraphQL();
         app.Run();
+        
     }
 }

@@ -1,7 +1,6 @@
-using Azure;
-using Azure.Identity;
-using Azure.AI.Projects;
-using Azure.AI.Inference;
+using Azure.AI.OpenAI;
+using LineRunner.Application.Configuration;
+using OpenAI.Chat;
 
 namespace LineRunner.Application.Services;
 
@@ -10,23 +9,26 @@ public interface IOpenAiDialogService
     Task<string> GenerateNpcReplyAsync(string npcPersona, string playerMessage);
 }
 
-public class OpenAiDialogService(AIProjectClient client) : IOpenAiDialogService
+public class OpenAiDialogService(AzureOpenAIClient client, AzureAiOptions azureAiOptions) : IOpenAiDialogService
 {
-    private readonly ChatCompletionsClient _chatClient = client.GetChatCompletionsClient();
+    private readonly ChatClient _chatClient = client.GetChatClient(azureAiOptions.DeploymentModel);
+
     public async Task<string> GenerateNpcReplyAsync(string npcPersona, string playerMessage)
     {
-        var chatOptions = new ChatCompletionsOptions
+        var chatOptions = new ChatCompletionOptions
         {
-            Messages =
-            {
-                new ChatRequestSystemMessage("You are: " + npcPersona),
-                new ChatRequestUserMessage(playerMessage)
-            },
-            Model = "gpt-4o",
+            MaxOutputTokenCount = 4096,
+            Temperature = 1.0f,
+            TopP = 1.0f
         };
-        
-        var response = await _chatClient.CompleteAsync(chatOptions);
-        
-        return response.Value.Content;
+
+        List<ChatMessage> messages = new List<ChatMessage>()
+        {
+            new SystemChatMessage("You are an NPC with the persona: " + npcPersona),
+            new UserChatMessage(playerMessage),
+        };
+
+        var response = await _chatClient.CompleteChatAsync(messages, chatOptions);
+        return response.Value.Content[0].Text;
     }
 }     
