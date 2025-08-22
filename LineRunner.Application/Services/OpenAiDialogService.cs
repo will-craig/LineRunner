@@ -17,11 +17,10 @@ public class OpenAiDialogService(AzureOpenAIClient client, AzureAiOptions azureA
     {
         var chatOptions = new ChatCompletionOptions
         {
-            MaxOutputTokenCount = 4096,
             Temperature = 1.0f,
             TopP = 1.0f
         };
-
+        
         List<ChatMessage> messages = new List<ChatMessage>()
         {
             new SystemChatMessage("You are an NPC with the persona: " + npcPersona),
